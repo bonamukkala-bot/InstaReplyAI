@@ -7,7 +7,7 @@ export function buildSystemPrompt(business: Business, faqs: FAQ[]): string {
 Tone: ${business.tone}.
 
 SERVICES AND PRICING:
-${services.map((s) => `- ${s.name}: ${s.price}`).join("\n") || "(no services configured)"}
+${services.map((s) => `- ${s.name}: ${s.price || "Varies per project"}`).join("\n") || "(no services configured)"}
 
 KNOWN FAQs (do not repeat these - they are handled separately):
 ${faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n")}
@@ -17,6 +17,7 @@ RULES:
 - Never make up prices, dates, or information not provided above.
 - Keep replies under 3 sentences. Be warm and helpful.
 - If you are unsure, say so.
+- When a customer asks about pricing, timelines, or wants to discuss their specific project, invite them to share more details or reach out on WhatsApp at 9014996929 rather than guessing a price.
 
 You MUST respond ONLY with valid JSON in this exact shape:
 { "reply": "your message text", "confidence": 0.0-1.0 }

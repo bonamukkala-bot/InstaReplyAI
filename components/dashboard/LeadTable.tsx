@@ -27,47 +27,58 @@ export function LeadTable({ leads }: { leads: any[] }) {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Leads</h1>
-      <div className="flex gap-2 mb-4">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-foreground">Leads</h1>
+        <p className="mt-1 text-sm text-muted">Track and manage your captured leads</p>
+      </div>
+      <div className="flex flex-wrap gap-2 mb-6">
         {STATUSES.map((s) => (
           <button
             key={s}
             onClick={() => filterBy(s)}
-            className={`px-3 py-1 rounded border ${
-              filter === s ? "bg-black text-white" : "bg-white"
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+              filter === s
+                ? "bg-accent text-white"
+                : "bg-surface border border-border text-muted hover:bg-muted/10"
             }`}
           >
             {s}
           </button>
         ))}
       </div>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="text-left border-b">
-            <th className="p-2">Name</th>
-            <th className="p-2">Phone</th>
-            <th className="p-2">Service</th>
-            <th className="p-2">Status</th>
-            <th className="p-2">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leads.map((l) => (
-            <tr key={l.id} className="border-b">
-              <td className="p-2">{l.name ?? "-"}</td>
-              <td className="p-2">{l.phone ?? "-"}</td>
-              <td className="p-2">{l.serviceInterest ?? "-"}</td>
-              <td className="p-2">
-                <span className={`px-2 py-1 rounded text-xs ${STATUS_COLORS[l.status]}`}>
-                  {l.status}
-                </span>
-              </td>
-              <td className="p-2">{new Date(l.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+      <div className="rounded-lg border border-border bg-surface">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="text-left text-xs uppercase text-muted border-b border-border">
+              <th className="p-4 font-medium">Name</th>
+              <th className="p-4 font-medium">Phone</th>
+              <th className="p-4 font-medium">Service</th>
+              <th className="p-4 font-medium">Status</th>
+              <th className="p-4 font-medium">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {leads.length === 0 && <p className="text-gray-500 mt-4">No leads found.</p>}
+          </thead>
+          <tbody>
+            {leads.map((l) => (
+              <tr key={l.id} className="border-b border-border last:border-b-0 hover:bg-muted/5 transition">
+                <td className="p-4">{l.name ?? "-"}</td>
+                <td className="p-4">{l.phone ?? "-"}</td>
+                <td className="p-4">{l.serviceInterest ?? "-"}</td>
+                <td className="p-4">
+                  <span className={`inline-block px-2.5 py-1 rounded-full text-xs ${STATUS_COLORS[l.status]}`}>
+                    {l.status}
+                  </span>
+                </td>
+                <td className="p-4">{new Date(l.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {leads.length === 0 && (
+          <div className="flex items-center justify-center p-8 text-muted">
+            <p>No leads found.</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
